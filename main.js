@@ -13,6 +13,8 @@ function init() {
   canvas = document.getElementById("myCanvas");
   canvasWidth = canvas.width;
   canvasHeight = canvas.height;
+  originXOffset = 20;
+  originYOffset = 20;
   ctx = canvas.getContext('2d');
   log(ctx);
 
@@ -23,12 +25,12 @@ function init() {
 
 // Transform x coordinate.
 function tx(x) {
-  return x;
+  return x + originXOffset;
 }
 
 // Transform y coordinate.
 function ty(y) {
-  return canvasHeight-y;
+  return canvasHeight-y - originYOffset;
 }
 
 function print_dot(x, y) {
