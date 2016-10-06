@@ -5,7 +5,7 @@ window.onload = init;
 
 var canvas, ctx;
 
-var canvasWidth, canvasHeight, originXOffset, originYOffset;
+var canvasWidth, canvasHeight, originXOffset, originYOffset, tickLength;
 
 var gridSpacing, xMin, xMax, xScale, yMin, yMax, yScale;
 
@@ -20,17 +20,18 @@ function init() {
   canvasHeight = canvas.height;
   originXOffset = 100;
   originYOffset = 300;
-  gridSpacing = 25;
-  xMin = -50;
-  xMax = 300;
-  yMin = -200;
-  yMax = 400;
+  gridSpacing = 1;
+  tickLength = 0.2;
+  xMin = -5;
+  xMax = 30;
+  yMin = -20;
+  yMax = 20;
 
   xScale = canvasWidth / (xMax - xMin);
   yScale = canvasHeight / (yMax - yMin);
 
-  print_line(5, 5, 20, 20);
-  print_dot(30, 30);
+  // print_line(5, 5, 20, 20);
+  // print_dot(30, 30);
 
   print_x_axis();
   print_y_axis();
@@ -41,17 +42,17 @@ function init() {
 
   // Cantilever
   var P = -0.3;
-  var l = 500;
+  var l = 20;
   var E = 30;
 
   var b = 10;
   var h = 2;
   var I = b * h * h * h / 12;
-  // for (var x = 0; x < l; x+=0.1 ) {
-  //   var y = P*x*x / (6*E*I) * (3*l - x);
-  //   print_dot(x,  y);
-  //   log(y);
-  // }
+  for (var x = 0; x < l; x+=0.1 ) {
+    var y = P*x*x / (6*E*I) * (3*l - x);
+    print_dot(x,  y);
+    log(y);
+  }
 
 }
 
@@ -59,11 +60,11 @@ function print_x_axis() {
   print_line(xMin, 0, xMax, 0);
 
   for (var x = 0; x > xMin; x -= gridSpacing) {
-    print_line(x, 5, x, -5);
+    print_line(x, tickLength, x, -tickLength);
   }
 
   for (var x = 0; x < xMax; x += gridSpacing) {
-    print_line(x, 5, x, -5);
+    print_line(x, tickLength, x, -tickLength);
   }
 
 }
@@ -72,11 +73,11 @@ function print_y_axis() {
   print_line(0, yMin, 0, yMax);
 
   for (var y = 0; y > yMin; y -= gridSpacing) {
-    print_line(5, y, -5, y);
+    print_line(tickLength, y, -tickLength, y);
   }
 
   for (var y = 0; y < yMax; y += gridSpacing) {
-    print_line(5, y, -5, y);
+    print_line(tickLength, y, -tickLength, y);
   }
 
 }
