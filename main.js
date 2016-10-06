@@ -19,18 +19,22 @@ function init() {
   canvasWidth = canvas.width;
   canvasHeight = canvas.height;
   originXOffset = 100;
-  originYOffset = 100;
+  originYOffset = 300;
   gridSpacing = 25;
   xMin = -50;
   xMax = 600;
-  yMin = -50;
-  yMax = 600;
+  yMin = -200;
+  yMax = 400;
 
   print_line(5, 5, 20, 20);
   print_dot(30, 30);
 
   print_x_axis();
   print_y_axis();
+
+  for (var x = xMin; x < xMax; x+= 0.1) {
+    print_dot(x, x * x);
+  }
 
 }
 
