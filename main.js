@@ -7,7 +7,7 @@ var canvas, ctx;
 
 var canvasWidth, canvasHeight, originXOffset, originYOffset;
 
-var gridSpacing, xMin, xMax, yMin, yMax;
+var gridSpacing, xMin, xMax, xScale, yMin, yMax, yScale;
 
 function init() {
   log("Loaded!");
@@ -22,9 +22,12 @@ function init() {
   originYOffset = 300;
   gridSpacing = 25;
   xMin = -50;
-  xMax = 600;
+  xMax = 300;
   yMin = -200;
   yMax = 400;
+
+  xScale = canvasWidth / (xMax - xMin);
+  yScale = canvasHeight / (yMax - yMin);
 
   print_line(5, 5, 20, 20);
   print_dot(30, 30);
@@ -44,11 +47,11 @@ function init() {
   var b = 10;
   var h = 2;
   var I = b * h * h * h / 12;
-  for (var x = 0; x < l; x+=0.1 ) {
-    var y = P*x*x / (6*E*I) * (3*l - x);
-    print_dot(x,  y);
-    log(y);
-  }
+  // for (var x = 0; x < l; x+=0.1 ) {
+  //   var y = P*x*x / (6*E*I) * (3*l - x);
+  //   print_dot(x,  y);
+  //   log(y);
+  // }
 
 }
 
@@ -80,12 +83,12 @@ function print_y_axis() {
 
 // Transform x coordinate.
 function tx(x) {
-  return x + originXOffset;
+  return (x - xMin) * xScale;
 }
 
 // Transform y coordinate.
 function ty(y) {
-  return canvasHeight-y - originYOffset;
+  return canvasHeight - (y - yMin) * yScale;
 }
 
 // Print a dot.
