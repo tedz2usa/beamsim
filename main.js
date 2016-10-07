@@ -33,8 +33,6 @@ function init() {
   // print_line(5, 5, 20, 20);
   // print_dot(30, 30);
 
-  print_x_axis();
-  print_y_axis();
 
   // for (var x = xMin; x < xMax; x+= 0.1) {
   //   print_dot(x, x * x);
@@ -42,9 +40,23 @@ function init() {
 
   // Cantilever
 
+  draw_frame();
+
+
+}
+
+
+function draw_frame(timestamp) {
+
+  // log(timestamp);
+
+  ctx.clearRect(0,0,canvasWidth, canvasHeight);
+
+  print_x_axis();
+  print_y_axis();
   print_beam();
 
-
+  window.requestAnimationFrame(draw_frame);
 
 }
 
@@ -59,13 +71,10 @@ function print_beam() {
   for (var x = 0; x < l; x+=0.1 ) {
     var y = P*x*x / (6*E*I) * (3*l - x);
     print_dot(x,  y);
-    log(y);
+    // log(y);
   }
 }
 
-function draw_frame() {
-
-}
 
 function print_x_axis() {
   print_line(xMin, 0, xMax, 0);
