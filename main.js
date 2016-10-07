@@ -41,6 +41,14 @@ function init() {
   // }
 
   // Cantilever
+
+  print_beam();
+
+
+
+}
+
+function print_beam() {
   var P = -0.3;
   var l = 20;
   var E = 30;
@@ -53,6 +61,9 @@ function init() {
     print_dot(x,  y);
     log(y);
   }
+}
+
+function draw_frame() {
 
 }
 
