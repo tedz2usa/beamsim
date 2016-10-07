@@ -56,8 +56,25 @@ function draw_frame(timestamp) {
   print_y_axis();
   print_beam(timestamp);
 
+  print_arrow(5, 5, 10, 10);
+  print_line_angle(5,5, 5, radians(270));
+
   window.requestAnimationFrame(draw_frame);
 
+}
+
+function radians(degrees) {
+  return Math.PI / 180 * degrees;
+}
+
+function print_arrow(x1, y1, x2, y2) {
+  print_line(x1, y1, x2, y2);
+}
+
+function print_line_angle(x, y, length, angle) {
+  var x2 = length * Math.cos(angle) + x;
+  var y2 = length * Math.sin(angle) + y;
+  print_line(x, y, x2, y2);
 }
 
 function print_beam(timestamp) {
