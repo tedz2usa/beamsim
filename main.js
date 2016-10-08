@@ -14,7 +14,7 @@ var inputXMin, inputXMax, inputYMin, inputYMax;
 
 var animationStart, animationDuration, animationReset = true;
 
-var P, L, E, B, H, I;
+var P, L, E, B, H, I, max_deflection;
 
 
 function init() {
@@ -70,14 +70,6 @@ function init() {
 
 function get_input_settings() {
   log("Click!");
-  // P = -0.3;
-  // L = 20;
-  // E = 30;
-  //
-  // B = 10;
-  // H = 2;
-  // I = B * H * H * H / 12;
-
 
   P = - parseFloat(inputForce.value);
   L = parseFloat(inputLength.value);
@@ -101,6 +93,7 @@ function get_input_settings() {
 function draw_frame(timestamp) {
 
   if (animationReset == true) {
+    max_deflection = 0;
     log("Reset!!");
     animationStart = timestamp;
     animationReset = false;
@@ -114,7 +107,6 @@ function draw_frame(timestamp) {
   print_y_axis();
   print_beam(timestamp);
 
-  // print_line_angle(5,5, 5, radians(-45));
 
   window.requestAnimationFrame(draw_frame);
 
@@ -152,12 +144,19 @@ function print_beam(timestamp) {
     print_dot(x,  y);
     x_i = x;
     y_i = y;
+    if (Math.abs(y) > max_deflection) {
+      max_deflection = Math.abs(y);
+    }
 
     // log(y);
   }
 
   print_arrow(tx(x_i), ty(y_i) - 5, 20, radians(270));
 
+
+  ctx.font = "18px Arial";
+  ctx.textAlign = "right";
+  ctx.fillText("Max Deflection: " + max_deflection.toFixed(4) + " m", canvasWidth - 20, 20);
 
 
 }
