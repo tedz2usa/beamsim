@@ -7,3 +7,9 @@ canvas {
   border: 1px solid #555;
   margin: 30px;
 }
+
+#inputSettings {
+  text-align: left;
+  margin: 0 auto;
+  width: 400px;
+}

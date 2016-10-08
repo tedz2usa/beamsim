@@ -24,8 +24,8 @@ function init() {
   tickLength = 0.2;
   xMin = -5;
   xMax = 30;
-  yMin = -20;
-  yMax = 20;
+  yMin = -10;
+  yMax = 10;
 
   xScale = canvasWidth / (xMax - xMin);
   yScale = canvasHeight / (yMax - yMin);
@@ -56,8 +56,7 @@ function draw_frame(timestamp) {
   print_y_axis();
   print_beam(timestamp);
 
-  print_arrow(5, 5, 10, 10);
-  print_line_angle(5,5, 5, radians(270));
+  // print_line_angle(5,5, 5, radians(-45));
 
   window.requestAnimationFrame(draw_frame);
 
@@ -69,6 +68,9 @@ function radians(degrees) {
 
 function print_arrow(x1, y1, x2, y2) {
   print_line(x1, y1, x2, y2);
+  var theta = Math.atan2(y1 - y2, x1 - x2);
+  print_line_angle(x2, y2, 1, theta - radians(45));
+  print_line_angle(x2, y2, 1, theta + radians(45));
 }
 
 function print_line_angle(x, y, length, angle) {
@@ -91,11 +93,20 @@ function print_beam(timestamp) {
   var P_interp = interp(0, duration, 0, P, timestamp);
   // log(P_interp);
 
+  var x_i, y_i;
   for (var x = 0; x < l; x+=0.1 ) {
     var y = P_interp*x*x / (6*E*I) * (3*l - x);
     print_dot(x,  y);
+    x_i = x;
+    y_i = y;
+
     // log(y);
   }
+
+  print_arrow(x_i, y_i + 5, x_i, y_i + 0.2);
+
+
+
 }
 
 function interp(x_start, x_end, y_start, y_end, x) {
