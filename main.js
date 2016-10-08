@@ -175,11 +175,11 @@ function print_x_axis() {
   print_line(tx(xMin), ty(0), tx(xMax), ty(0));
 
   for (var x = 0; x > xMin; x -=xGridSpacing) {
-    print_line(tx(x), ty(0)-tickLength, tx(x), ty(0)+tickLength);
+    print_x_tick(x);
   }
 
   for (var x = 0; x < xMax; x += xGridSpacing) {
-    print_line(tx(x), ty(0)-tickLength, tx(x), ty(0)+tickLength);
+    print_x_tick(x);
   }
 
 }
@@ -188,14 +188,35 @@ function print_y_axis() {
   print_line(tx(0), ty(yMin), tx(0), ty(yMax));
 
   for (var y = 0; y > yMin; y -= yGridSpacing) {
-    print_line(tx(0) + tickLength, ty(y), tx(0)-tickLength, ty(y));
+    print_y_tick(y);
 
   }
   for (var y = 0; y < yMax; y += yGridSpacing) {
-    print_line(tx(0) + tickLength, ty(y), tx(0)-tickLength, ty(y));
+    print_y_tick(y);
   }
 
 }
+
+function print_x_tick(x) {
+  print_line(tx(x), ty(0)-tickLength, tx(x), ty(0)+tickLength);
+  if (x != 0) {
+    ctx.font = "12px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(x.toFixed(1), tx(x), ty(0)-15);
+  }
+}
+
+function print_y_tick(y) {
+  print_line(tx(0) + tickLength, ty(y), tx(0)-tickLength, ty(y));
+  if (y != 0) {
+    ctx.font = "12px Arial";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "middle";
+    ctx.fillText(y.toFixed(1), tx(0)-15, ty(y));
+    ctx.textBaseline = "alphabetic";
+  }
+}
+
 
 // Transform x coordinate.
 function tx(x) {
