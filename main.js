@@ -73,7 +73,7 @@ function get_input_settings() {
 
   P = - parseFloat(inputForce.value);
   L = parseFloat(inputLength.value);
-  E = parseFloat(inputElasticity.value);
+  E = parseFloat(inputElasticity.value) * 1e9;
 
   B = parseFloat(inputBeamWidth.value);
   H = parseFloat(inputBeamHeight.value);
