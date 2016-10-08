@@ -60,6 +60,7 @@ function init() {
   // }
 
   // Cantilever
+  // 3.35 * 10^-4 m.
 
   draw_frame();
 
