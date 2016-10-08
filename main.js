@@ -81,10 +81,10 @@ function get_input_settings() {
 
   animationReset = true;
 
-  xMin = parseFloat(inputXMin.value);
-  xMax = parseFloat(inputXMax.value);
-  yMin = parseFloat(inputYMin.value);
-  yMax = parseFloat(inputYMax.value);
+  xMin = parseFloat(inputXMin.value) - xGridSpacing / 2;
+  xMax = parseFloat(inputXMax.value) + xGridSpacing / 2;
+  yMin = parseFloat(inputYMin.value) - yGridSpacing / 2;
+  yMax = parseFloat(inputYMax.value) + yGridSpacing / 2;
   xScale = canvasWidth / (xMax - xMin);
   yScale = canvasHeight / (yMax - yMin);
 
@@ -156,7 +156,7 @@ function print_beam(timestamp) {
 
   ctx.font = "18px Arial";
   ctx.textAlign = "right";
-  ctx.fillText("Max Deflection: " + max_deflection.toFixed(4) + " m", canvasWidth - 20, 20);
+  ctx.fillText("Max Deflection: " + max_deflection.toFixed(8) + " m", canvasWidth - 20, 20);
 
 
 }
