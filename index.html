@@ -14,34 +14,16 @@
     <div id='inputSettings'>
     Force: <input id="inputForce" type="text" value="0.005"><br>
     Beam Length: <input id="inputLength" type="text" value="0.5"><br>
-    Beam Elasticity: <input id="inputElasticity" type="text" value="30"><br>
+    Beam Elasticity: <input id="inputElasticity" type="text" value="1000"><br>
     Beam cross-sectional Height: <input id="inputBeamWidth" type="text" value="0.1"><br>
     Beam cross-sectional Width: <input id="inputBeamHeight" type="text" value="0.06"><br>
 
-<!--
-
-Force: <input id="inputForce" type="text" value="1000"><br>
-Beam Length: <input id="inputLength" type="text" value="0.5"><br>
-Beam Elasticity: <input id="inputElasticity" type="text" value="69e9"><br>
-Beam cross-sectional Height: <input id="inputBeamWidth" type="text" value="0.06"><br>
-Beam cross-sectional Width: <input id="inputBeamHeight" type="text" value="0.10"><br>
-
-
-// P = -0.3;
-// L = 20;
-// E = 30;
-//
-// B = 10;
-// H = 2;
-
--->
-
     <br>
     Animation: <input id="inputAnimation" type="checkbox"><br>
-    X Min: <input id="inputXMin" type="text" value="-1"><br>
-    X Max: <input id="inputXMax" type="text" value="1"><br>
-    Y Min: <input id="inputYMin" type="text" value="-10"><br>
-    Y Max: <input id="inputYMax" type="text" value="10"><br>
+    x-min: <input id="inputXMin" type="text" value="-0.15"><br>
+    x-max: <input id="inputXMax" type="text" value="0.75"><br>
+    y-min: <input id="inputYMin" type="text" value="-0.55"><br>
+    y-max: <input id="inputYMax" type="text" value="0.55"><br>
     <br>
 
     <button onclick="get_input_settings();">Set</button>

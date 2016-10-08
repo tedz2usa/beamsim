@@ -41,7 +41,7 @@ function init() {
   originXOffset = 100;
   originYOffset = 300;
   xGridSpacing = 0.1;
-  yGridSpacing = 1;
+  yGridSpacing = 0.1;
   xTickLength = 0.5;
   yTickLength = 0.04;
   tickLength = 4;
@@ -146,7 +146,7 @@ function print_beam(timestamp) {
   // log(P_interp);
 
   var x_i, y_i;
-  for (var x = 0; x < L; x+=0.01 ) {
+  for (var x = 0; x < L; x+=0.005 ) {
     var y = P_interp*x*x / (6*E*I) * (3*L - x);
     print_dot(x,  y);
     x_i = x;
