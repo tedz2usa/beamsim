@@ -10,6 +10,9 @@ var canvasWidth, canvasHeight, originXOffset, originYOffset, tickLength;
 var gridSpacing, xMin, xMax, xScale, yMin, yMax, yScale;
 
 var inputForce, inputLength, inputElasticity, inputBeamWidth, inputBeamHeight;
+var inputXMin, inputXMax, inputYMin, inputYMax;
+
+var animationStart, animationDuration, animationReset = true;
 
 var P, L, E, B, H, I;
 
@@ -27,19 +30,26 @@ function init() {
   inputBeamWidth = document.getElementById("inputBeamWidth");
   inputBeamHeight = document.getElementById("inputBeamHeight");
 
+  inputXMin = document.getElementById("inputXMin");
+  inputXMax = document.getElementById("inputXMax");
+  inputYMin = document.getElementById("inputYMin");
+  inputYMax = document.getElementById("inputYMax");
+
+
   canvasWidth = canvas.width;
   canvasHeight = canvas.height;
   originXOffset = 100;
   originYOffset = 300;
-  gridSpacing = 1;
-  tickLength = 0.2;
-  xMin = -2;
-  xMax = 2;
-  yMin = -2;
-  yMax = 2;
+  xGridSpacing = 0.1;
+  yGridSpacing = 1;
+  xTickLength = 0.5;
+  yTickLength = 0.04;
+  tickLength = 4;
+  // xMin = -2;
+  // xMax = 30;
+  // yMin = -2;
+  // yMax = 2;
 
-  xScale = canvasWidth / (xMax - xMin);
-  yScale = canvasHeight / (yMax - yMin);
 
   // print_line(5, 5, 20, 20);
   // print_dot(30, 30);
@@ -58,6 +68,7 @@ function init() {
 }
 
 function get_input_settings() {
+  log("Click!");
   // P = -0.3;
   // L = 20;
   // E = 30;
@@ -74,9 +85,25 @@ function get_input_settings() {
   B = parseFloat(inputBeamWidth.value);
   H = parseFloat(inputBeamHeight.value);
   I = B * H * H * H / 12;
+
+  animationReset = true;
+
+  xMin = parseFloat(inputXMin.value);
+  xMax = parseFloat(inputXMax.value);
+  yMin = parseFloat(inputYMin.value);
+  yMax = parseFloat(inputYMax.value);
+  xScale = canvasWidth / (xMax - xMin);
+  yScale = canvasHeight / (yMax - yMin);
+
 }
 
 function draw_frame(timestamp) {
+
+  if (animationReset == true) {
+    log("Reset!!");
+    animationStart = timestamp;
+    animationReset = false;
+  }
 
   // log(timestamp);
 
@@ -96,11 +123,11 @@ function radians(degrees) {
   return Math.PI / 180 * degrees;
 }
 
-function print_arrow(x1, y1, x2, y2) {
-  print_line(x1, y1, x2, y2);
-  var theta = Math.atan2(y1 - y2, x1 - x2);
-  print_line_angle(x2, y2, 1, theta - radians(45));
-  print_line_angle(x2, y2, 1, theta + radians(45));
+function print_arrow(x, y, length, angle) {
+  print_line_angle(x, y, length, angle);
+  // var theta = Math.atan2(y1 - y2, x1 - x2);
+  print_line_angle(x, y, 10, angle - radians(45));
+  print_line_angle(x, y, 10, angle + radians(45));
 }
 
 function print_line_angle(x, y, length, angle) {
@@ -115,11 +142,11 @@ function print_beam(timestamp) {
 
   var duration = 1000;
 
-  var P_interp = interp(0, duration, 0, P, timestamp);
+  var P_interp = interp(0, duration, 0, P, timestamp - animationStart);
   // log(P_interp);
 
   var x_i, y_i;
-  for (var x = 0; x < L; x+=0.1 ) {
+  for (var x = 0; x < L; x+=0.01 ) {
     var y = P_interp*x*x / (6*E*I) * (3*L - x);
     print_dot(x,  y);
     x_i = x;
@@ -128,7 +155,7 @@ function print_beam(timestamp) {
     // log(y);
   }
 
-  print_arrow(x_i, y_i + 5, x_i, y_i + 0.2);
+  print_arrow(tx(x_i), ty(y_i) - 5, 20, radians(270));
 
 
 
@@ -145,27 +172,27 @@ function interp(x_start, x_end, y_start, y_end, x) {
 }
 
 function print_x_axis() {
-  print_line(xMin, 0, xMax, 0);
+  print_line(tx(xMin), ty(0), tx(xMax), ty(0));
 
-  for (var x = 0; x > xMin; x -= gridSpacing) {
-    print_line(x, tickLength, x, -tickLength);
+  for (var x = 0; x > xMin; x -=xGridSpacing) {
+    print_line(tx(x), ty(0)-tickLength, tx(x), ty(0)+tickLength);
   }
 
-  for (var x = 0; x < xMax; x += gridSpacing) {
-    print_line(x, tickLength, x, -tickLength);
+  for (var x = 0; x < xMax; x += xGridSpacing) {
+    print_line(tx(x), ty(0)-tickLength, tx(x), ty(0)+tickLength);
   }
 
 }
 
 function print_y_axis() {
-  print_line(0, yMin, 0, yMax);
+  print_line(tx(0), ty(yMin), tx(0), ty(yMax));
 
-  for (var y = 0; y > yMin; y -= gridSpacing) {
-    print_line(tickLength, y, -tickLength, y);
+  for (var y = 0; y > yMin; y -= yGridSpacing) {
+    print_line(tx(0) + tickLength, ty(y), tx(0)-tickLength, ty(y));
+
   }
-
-  for (var y = 0; y < yMax; y += gridSpacing) {
-    print_line(tickLength, y, -tickLength, y);
+  for (var y = 0; y < yMax; y += yGridSpacing) {
+    print_line(tx(0) + tickLength, ty(y), tx(0)-tickLength, ty(y));
   }
 
 }
@@ -188,8 +215,10 @@ function print_dot(x, y) {
 // Print a line.
 function print_line(x1, y1, x2, y2) {
   ctx.beginPath();
-  ctx.moveTo(tx(x1), ty(y1));
-  ctx.lineTo(tx(x2), ty(y2));
+  // ctx.moveTo(tx(x1), ty(y1));
+  // ctx.lineTo(tx(x2), ty(y2));
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
   ctx.stroke();
 
 }
