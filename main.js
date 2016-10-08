@@ -9,6 +9,11 @@ var canvasWidth, canvasHeight, originXOffset, originYOffset, tickLength;
 
 var gridSpacing, xMin, xMax, xScale, yMin, yMax, yScale;
 
+var inputForce, inputLength, inputElasticity, inputBeamWidth, inputBeamHeight;
+
+var P, L, E, B, H, I;
+
+
 function init() {
   log("Loaded!");
 
@@ -16,16 +21,22 @@ function init() {
   ctx = canvas.getContext('2d');
   log(ctx);
 
+  inputForce = document.getElementById("inputForce");
+  inputLength = document.getElementById("inputLength");
+  inputElasticity = document.getElementById("inputElasticity");
+  inputBeamWidth = document.getElementById("inputBeamWidth");
+  inputBeamHeight = document.getElementById("inputBeamHeight");
+
   canvasWidth = canvas.width;
   canvasHeight = canvas.height;
   originXOffset = 100;
   originYOffset = 300;
   gridSpacing = 1;
   tickLength = 0.2;
-  xMin = -5;
-  xMax = 30;
-  yMin = -10;
-  yMax = 10;
+  xMin = -2;
+  xMax = 2;
+  yMin = -2;
+  yMax = 2;
 
   xScale = canvasWidth / (xMax - xMin);
   yScale = canvasHeight / (yMax - yMin);
@@ -42,9 +53,28 @@ function init() {
 
   draw_frame();
 
+  get_input_settings();
 
 }
 
+function get_input_settings() {
+  // P = -0.3;
+  // L = 20;
+  // E = 30;
+  //
+  // B = 10;
+  // H = 2;
+  // I = B * H * H * H / 12;
+
+
+  P = - parseFloat(inputForce.value);
+  L = parseFloat(inputLength.value);
+  E = parseFloat(inputElasticity.value);
+
+  B = parseFloat(inputBeamWidth.value);
+  H = parseFloat(inputBeamHeight.value);
+  I = B * H * H * H / 12;
+}
 
 function draw_frame(timestamp) {
 
@@ -80,13 +110,8 @@ function print_line_angle(x, y, length, angle) {
 }
 
 function print_beam(timestamp) {
-  var P = -0.3;
-  var l = 20;
-  var E = 30;
 
-  var b = 10;
-  var h = 2;
-  var I = b * h * h * h / 12;
+
 
   var duration = 1000;
 
@@ -94,8 +119,8 @@ function print_beam(timestamp) {
   // log(P_interp);
 
   var x_i, y_i;
-  for (var x = 0; x < l; x+=0.1 ) {
-    var y = P_interp*x*x / (6*E*I) * (3*l - x);
+  for (var x = 0; x < L; x+=0.1 ) {
+    var y = P_interp*x*x / (6*E*I) * (3*L - x);
     print_dot(x,  y);
     x_i = x;
     y_i = y;
