@@ -15,7 +15,7 @@ var inputXMin, inputXMax, inputYMin, inputYMax;
 
 var animationStart, animationDuration, animationReset = true;
 
-var P, L, E, B, H, I, max_deflection;
+var P, L, E, B, H, I, A, max_deflection;
 
 
 function init() {
@@ -55,8 +55,8 @@ function init() {
 
   draw_frame();
 
-  get_input_settings();
   select_load_location_change();
+  get_input_settings();
 
 
 
@@ -84,6 +84,8 @@ function get_input_settings() {
   B = parseFloat(inputBeamWidth.value);
   H = parseFloat(inputBeamHeight.value);
   I = B * H * H * H / 12;
+
+  A = parseFloat(inputLoadLocation.value);
 
   animationReset = true;
 
@@ -141,7 +143,8 @@ function print_beam(timestamp) {
   var x_i, y_i;
   var increment = 1 / xScale;
   for (var x = 0; x < L; x+=increment ) {
-    var y = P_interp*x*x / (6*E*I) * (3*L - x);
+    //var y = P_interp*x*x / (6*E*I) * (3*L - x);
+    var y = get_deflection(P_interp, x);
     print_dot(tx(x),  ty(y));
     x_i = x;
     y_i = y;
@@ -151,11 +154,29 @@ function print_beam(timestamp) {
 
   }
 
-  print_arrow(tx(x_i), ty(y_i) - 5, 20, radians(270));
+  print_arrow(tx(A), ty(get_deflection(P_interp, A)) - 2, 20, radians(270));
 
   ctx.font = "18px Arial";
   ctx.textAlign = "right";
   ctx.fillText("Max Deflection:  " + max_deflection.toFixed(4) + " m", canvasWidth - 20, 35);
+
+}
+
+function get_deflection(P_interp, x) {
+
+  if (true) { // Cantilever
+
+    if (x < A) {
+      // return P_interp*x*x / (6*E*I) * (3*L - x);
+      return P_interp * x * x / (6 * E * I) * (3 * A - x);
+    } else {
+      // return P_interp*x*x / (6*E*I) * (3*L - x);
+      return P_interp * A * A / (6 * E * I) * (3 * x - A);
+    }
+
+  } else {
+
+  }
 
 }
 
