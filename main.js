@@ -235,7 +235,7 @@ function print_x_tick(x) {
     print_line(tx(x), ty(0)-tickLength, tx(x), ty(0)+tickLength);
     ctx.font = "12px Arial";
     ctx.textAlign = "center";
-    ctx.fillText(x.toFixed(2), tx(x), ty(0)-15);
+    ctx.fillText(x.toFixed(1), tx(x), ty(0)-15);
   }
 }
 
@@ -245,7 +245,7 @@ function print_y_tick(y) {
     ctx.font = "12px Arial";
     ctx.textAlign = "right";
     ctx.textBaseline = "middle";
-    ctx.fillText(y.toFixed(2), tx(0)-12, ty(y));
+    ctx.fillText(y.toFixed(1), tx(0)-12, ty(y));
     ctx.textBaseline = "alphabetic";
   }
 }
