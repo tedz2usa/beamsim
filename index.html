@@ -11,13 +11,6 @@
     <br>
     <div id='inputSettings'>
       <h2>Input Settings</h2>
-      Beam Type:
-      <select id="selectBeamSupport" onchange="beam_support_change();">
-        <option value="cantilever">cantilever</option>
-        <option value="both_ends">supported at both ends</option>
-      </select>
-      <br>
-      <br>
       <table>
         <tr>
           <td>Force (N): </td>
@@ -48,10 +41,15 @@
         <option value="custom">custom...</option>
       </select>
       &nbsp;&nbsp;&nbsp;
-      <input id="inputLoadLocation" type="text">
+      <input id="inputLoadLocation" type="text"><span style="margin-bottom: 15px; display:inline-block;">&nbsp;</span><br>
+      Beam Type:
+      <select id="selectBeamSupport" onchange="beam_support_change();">
+        <option value="cantilever">cantilever</option>
+        <option value="both_ends">supported at both ends</option>
+      </select>
       <br>
       <br>
-      <table id="graphSettings">
+      <table id="graphSettings" style="display:none;">
         <tr>
           <td>
             x-min: <input id="inputXMin" type="text" value="-0.1">
@@ -77,8 +75,6 @@
           </td>
         </tr>
       </table>
-      <br>
-      <br>
       <button onclick="get_input_settings();">Set</button>
     </div>
 
