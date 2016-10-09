@@ -10,6 +10,7 @@ var canvasWidth, canvasHeight, originXOffset, originYOffset, tickLength;
 var gridSpacing, xMin, xMax, xScale, yMin, yMax, yScale;
 
 var inputForce, inputLength, inputElasticity, inputBeamWidth, inputBeamHeight;
+var selectLoadLocationOption, inputLoadLocation;
 var inputXMin, inputXMax, inputYMin, inputYMax;
 
 var animationStart, animationDuration, animationReset = true;
@@ -30,6 +31,9 @@ function init() {
   inputBeamWidth = document.getElementById("inputBeamWidth");
   inputBeamHeight = document.getElementById("inputBeamHeight");
 
+  selectLoadLocationOption = document.getElementById("selectLoadLocationOption");
+  inputLoadLocation = document.getElementById("inputLoadLocation");
+
   inputXMin = document.getElementById("inputXMin");
   inputXMax = document.getElementById("inputXMax");
   inputYMin = document.getElementById("inputYMin");
@@ -48,10 +52,26 @@ function init() {
   // Cantilever
   // 3.35 * 10^-4 m.
 
+
   draw_frame();
 
   get_input_settings();
+  select_load_location_change();
 
+
+
+}
+
+function select_load_location_change() {
+  if (selectLoadLocationOption.value == "end") {
+    inputLoadLocation.value = parseFloat(inputLength.value);
+    inputLoadLocation.disabled = "disabled";
+  } else if (selectLoadLocationOption.value == "middle") {
+    inputLoadLocation.value = (parseFloat(inputLength.value) / 2).toFixed(2);
+    inputLoadLocation.disabled = "disabled";
+  } else if (selectLoadLocationOption.value == "custom") {
+    inputLoadLocation.disabled = false;
+  }
 }
 
 function get_input_settings() {
@@ -135,7 +155,7 @@ function print_beam(timestamp) {
 
   ctx.font = "18px Arial";
   ctx.textAlign = "right";
-  ctx.fillText("Max Deflection: " + max_deflection.toFixed(4) + " m", canvasWidth - 20, 35);
+  ctx.fillText("Max Deflection:  " + max_deflection.toFixed(4) + " m", canvasWidth - 20, 35);
 
 }
 
