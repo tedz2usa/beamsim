@@ -10,7 +10,7 @@ var canvasWidth, canvasHeight, originXOffset, originYOffset, tickLength;
 var gridSpacing, xMin, xMax, xScale, yMin, yMax, yScale;
 
 var inputForce, inputLength, inputElasticity, inputBeamWidth, inputBeamHeight;
-var selectLoadLocationOption, inputLoadLocation;
+var selectLoadLocationOption, inputLoadLocation, selectBeamSupport;
 var inputXMin, inputXMax, inputYMin, inputYMax;
 
 var animationStart, animationDuration, animationReset = true;
@@ -33,6 +33,7 @@ function init() {
 
   selectLoadLocationOption = document.getElementById("selectLoadLocationOption");
   inputLoadLocation = document.getElementById("inputLoadLocation");
+  selectBeamSupport = document.getElementById("selectBeamSupport");
 
   inputXMin = document.getElementById("inputXMin");
   inputXMax = document.getElementById("inputXMax");
@@ -43,8 +44,6 @@ function init() {
   canvasHeight = canvas.height;
   originXOffset = 100;
   originYOffset = 300;
-  xGridSpacing = 0.1;
-  yGridSpacing = 0.1;
   xTickLength = 0.5;
   yTickLength = 0.04;
   tickLength = 4;
@@ -55,23 +54,18 @@ function init() {
 
   draw_frame();
 
-  select_load_location_change();
   get_input_settings();
 
 
 
 }
 
-function select_load_location_change() {
-  if (selectLoadLocationOption.value == "end") {
-    inputLoadLocation.value = parseFloat(inputLength.value);
-    inputLoadLocation.disabled = "disabled";
-  } else if (selectLoadLocationOption.value == "middle") {
-    inputLoadLocation.value = (parseFloat(inputLength.value) / 2).toFixed(2);
-    inputLoadLocation.disabled = "disabled";
-  } else if (selectLoadLocationOption.value == "custom") {
-    inputLoadLocation.disabled = false;
+function beam_support_change() {
+  if (selectBeamSupport.value == "both_ends") {
+    selectLoadLocationOption.value = "middle";
   }
+
+  get_input_settings();
 }
 
 function get_input_settings() {
@@ -85,16 +79,31 @@ function get_input_settings() {
   H = parseFloat(inputBeamHeight.value);
   I = B * H * H * H / 12;
 
-  A = parseFloat(inputLoadLocation.value);
 
   animationReset = true;
 
+
+  xGridSpacing = parseFloat(inputXGrid.value);
+  yGridSpacing = parseFloat(inputYGrid.value);;
   xMin = parseFloat(inputXMin.value) - xGridSpacing / 2;
   xMax = parseFloat(inputXMax.value) + xGridSpacing / 2;
   yMin = parseFloat(inputYMin.value) - yGridSpacing / 2;
   yMax = parseFloat(inputYMax.value) + yGridSpacing / 2;
   xScale = canvasWidth / (xMax - xMin);
   yScale = canvasHeight / (yMax - yMin);
+
+
+  if (selectLoadLocationOption.value == "end") {
+    inputLoadLocation.value = parseFloat(inputLength.value);
+    inputLoadLocation.disabled = "disabled";
+  } else if (selectLoadLocationOption.value == "middle") {
+    inputLoadLocation.value = (parseFloat(inputLength.value) / 2).toFixed(2);
+    inputLoadLocation.disabled = "disabled";
+  } else if (selectLoadLocationOption.value == "custom") {
+    inputLoadLocation.disabled = false;
+  }
+
+  A = parseFloat(inputLoadLocation.value);
 
 }
 
@@ -154,7 +163,7 @@ function print_beam(timestamp) {
 
   }
 
-  print_arrow(tx(A), ty(get_deflection(P_interp, A)) - 2, 20, radians(270));
+  print_arrow(tx(A), ty(get_deflection(P_interp, A)) - 0, 20, radians(270));
 
   ctx.font = "18px Arial";
   ctx.textAlign = "right";
@@ -164,18 +173,25 @@ function print_beam(timestamp) {
 
 function get_deflection(P_interp, x) {
 
-  if (true) { // Cantilever
+  if (selectBeamSupport.value == "cantilever") { // Cantilever
 
     if (x < A) {
-      // return P_interp*x*x / (6*E*I) * (3*L - x);
       return P_interp * x * x / (6 * E * I) * (3 * A - x);
     } else {
-      // return P_interp*x*x / (6*E*I) * (3*L - x);
       return P_interp * A * A / (6 * E * I) * (3 * x - A);
     }
 
-  } else {
-
+  } else if (selectBeamSupport.value == "both_ends") {
+    var A_B = L - A;
+    if (x < A) {
+      return P_interp * A_B * x / (6 * L * E * I) * (L*L - x*x - A_B*A_B);
+    } else {
+      if (L == A) {
+        return 0;
+      } else {
+        return P_interp * A_B / (6 * L * E * I) * ( (L/A_B) * Math.pow(x - A, 3) + (L*L - A_B*A_B)*x - Math.pow(x, 3) );
+      }
+    }
   }
 
 }
@@ -219,7 +235,7 @@ function print_x_tick(x) {
     print_line(tx(x), ty(0)-tickLength, tx(x), ty(0)+tickLength);
     ctx.font = "12px Arial";
     ctx.textAlign = "center";
-    ctx.fillText(x.toFixed(1), tx(x), ty(0)-15);
+    ctx.fillText(x.toFixed(2), tx(x), ty(0)-15);
   }
 }
 
@@ -229,7 +245,7 @@ function print_y_tick(y) {
     ctx.font = "12px Arial";
     ctx.textAlign = "right";
     ctx.textBaseline = "middle";
-    ctx.fillText(y.toFixed(1), tx(0)-15, ty(y));
+    ctx.fillText(y.toFixed(2), tx(0)-12, ty(y));
     ctx.textBaseline = "alphabetic";
   }
 }

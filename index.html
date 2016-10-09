@@ -11,10 +11,17 @@
     <br>
     <div id='inputSettings'>
       <h2>Input Settings</h2>
+      Beam Type:
+      <select id="selectBeamSupport" onchange="beam_support_change();">
+        <option value="cantilever">cantilever</option>
+        <option value="both_ends">supported at both ends</option>
+      </select>
+      <br>
+      <br>
       <table>
         <tr>
           <td>Force (N): </td>
-          <td><input id="inputForce" type="text" value="300000"></td>
+          <td><input id="inputForce" type="text" value="400000"></td>
         </tr>
         <tr>
           <td>Beam Length (m): </td>
@@ -22,7 +29,7 @@
         </tr>
         <tr>
           <td>Beam Elasticity (GPa): </td>
-          <td><input id="inputElasticity" type="text" value="69"></td>
+          <td><input id="inputElasticity" type="text" value="70"></td>
         </tr>
         <tr>
           <td>Beam Cross-Sectional Width (m): </td>
@@ -35,19 +42,13 @@
       </table>
       <br>
       Load location:
-      <select id="selectLoadLocationOption" onchange="select_load_location_change();">
+      <select id="selectLoadLocationOption" onchange="get_input_settings();">
         <option value="end">end of beam</option>
         <option value="middle">middle of beam</option>
         <option value="custom">custom...</option>
       </select>
       &nbsp;&nbsp;&nbsp;
       <input id="inputLoadLocation" type="text">
-      <br>
-      Beam Support:
-      <select id="selectBeamSupport" onchange="select_beam_support_change();">
-        <option value="cantilever">cantilever</option>
-        <option value="both_ends">both ends</option>
-      </select>
       <br>
       <br>
       <table id="graphSettings">
@@ -86,5 +87,10 @@
 // Distributed Load
 
    -->
+
+   <br>
+   <br>
+   <br>
+   <br>
   </body>
 </html>

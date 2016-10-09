@@ -3,6 +3,15 @@ body {
   text-align: center;
 }
 
+body, table {
+
+  font-size: 20px;
+}
+
+input, select, option {
+  font-size: 17px;
+}
+
 canvas {
   border: 1px solid #555;
   margin: 30px;
@@ -11,11 +20,11 @@ canvas {
 #inputSettings {
   text-align: left;
   margin: 0 auto;
-  width: 400px;
+  width: 450px;
 }
 
 input {
-  width: 70px;
+  width: 100px;
 }
 
 #graphSettings td, #inputSettings td {
