@@ -18,11 +18,11 @@ var P, L, E, B, H, I, max_deflection;
 
 
 function init() {
+
   log("Loaded!");
 
   canvas = document.getElementById("myCanvas");
   ctx = canvas.getContext('2d');
-  log(ctx);
 
   inputForce = document.getElementById("inputForce");
   inputLength = document.getElementById("inputLength");
@@ -35,7 +35,6 @@ function init() {
   inputYMin = document.getElementById("inputYMin");
   inputYMax = document.getElementById("inputYMax");
 
-
   canvasWidth = canvas.width;
   canvasHeight = canvas.height;
   originXOffset = 100;
@@ -45,19 +44,6 @@ function init() {
   xTickLength = 0.5;
   yTickLength = 0.04;
   tickLength = 4;
-  // xMin = -2;
-  // xMax = 30;
-  // yMin = -2;
-  // yMax = 2;
-
-
-  // print_line(5, 5, 20, 20);
-  // print_dot(30, 30);
-
-
-  // for (var x = xMin; x < xMax; x+= 0.1) {
-  //   print_dot(x, x * x);
-  // }
 
   // Cantilever
   // 3.35 * 10^-4 m.
@@ -99,14 +85,11 @@ function draw_frame(timestamp) {
     animationReset = false;
   }
 
-  // log(timestamp);
-
   ctx.clearRect(0,0,canvasWidth, canvasHeight);
 
   print_x_axis();
   print_y_axis();
   print_beam(timestamp);
-
 
   window.requestAnimationFrame(draw_frame);
 
@@ -131,12 +114,9 @@ function print_line_angle(x, y, length, angle) {
 
 function print_beam(timestamp) {
 
-
-
   var duration = 1000;
 
   var P_interp = interp(0, duration, 0, P, timestamp - animationStart);
-  // log(P_interp);
 
   var x_i, y_i;
   var increment = 1 / xScale;
@@ -149,16 +129,13 @@ function print_beam(timestamp) {
       max_deflection = Math.abs(y);
     }
 
-    // log(y);
   }
 
   print_arrow(tx(x_i), ty(y_i) - 5, 20, radians(270));
 
-
   ctx.font = "18px Arial";
   ctx.textAlign = "right";
   ctx.fillText("Max Deflection: " + max_deflection.toFixed(4) + " m", canvasWidth - 20, 35);
-
 
 }
 
@@ -168,8 +145,6 @@ function interp(x_start, x_end, y_start, y_end, x) {
   } else {
     return y_end;
   }
-
-
 }
 
 function print_x_axis() {
@@ -237,8 +212,6 @@ function print_dot(x, y) {
 // Print a line.
 function print_line(x1, y1, x2, y2) {
   ctx.beginPath();
-  // ctx.moveTo(tx(x1), ty(y1));
-  // ctx.lineTo(tx(x2), ty(y2));
   ctx.moveTo(x1, y1);
   ctx.lineTo(x2, y2);
   ctx.stroke();
