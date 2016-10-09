@@ -139,9 +139,10 @@ function print_beam(timestamp) {
   // log(P_interp);
 
   var x_i, y_i;
-  for (var x = 0; x < L; x+=0.005 ) {
+  var increment = 1 / xScale;
+  for (var x = 0; x < L; x+=increment ) {
     var y = P_interp*x*x / (6*E*I) * (3*L - x);
-    print_dot(x,  y);
+    print_dot(tx(x),  ty(y));
     x_i = x;
     y_i = y;
     if (Math.abs(y) > max_deflection) {
@@ -156,7 +157,7 @@ function print_beam(timestamp) {
 
   ctx.font = "18px Arial";
   ctx.textAlign = "right";
-  ctx.fillText("Max Deflection: " + max_deflection.toFixed(8) + " m", canvasWidth - 20, 20);
+  ctx.fillText("Max Deflection: " + max_deflection.toFixed(4) + " m", canvasWidth - 20, 35);
 
 
 }
@@ -198,8 +199,8 @@ function print_y_axis() {
 }
 
 function print_x_tick(x) {
-  print_line(tx(x), ty(0)-tickLength, tx(x), ty(0)+tickLength);
   if (x != 0) {
+    print_line(tx(x), ty(0)-tickLength, tx(x), ty(0)+tickLength);
     ctx.font = "12px Arial";
     ctx.textAlign = "center";
     ctx.fillText(x.toFixed(1), tx(x), ty(0)-15);
@@ -207,8 +208,8 @@ function print_x_tick(x) {
 }
 
 function print_y_tick(y) {
-  print_line(tx(0) + tickLength, ty(y), tx(0)-tickLength, ty(y));
   if (y != 0) {
+    print_line(tx(0) + tickLength, ty(y), tx(0)-tickLength, ty(y));
     ctx.font = "12px Arial";
     ctx.textAlign = "right";
     ctx.textBaseline = "middle";
@@ -230,7 +231,7 @@ function ty(y) {
 
 // Print a dot.
 function print_dot(x, y) {
-  ctx.fillRect(tx(x), ty(y), 1, 1);
+  ctx.fillRect(x, y, 1, 1);
 }
 
 // Print a line.
