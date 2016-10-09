@@ -12,20 +12,59 @@
     <canvas width="600" height="400" id="myCanvas"></canvas><br>
 
     <div id='inputSettings'>
-    Force (N): <input id="inputForce" type="text" value="300000"><br>
-    Beam Length (m): <input id="inputLength" type="text" value="0.5"><br>
-    Beam Elasticity (GPa): <input id="inputElasticity" type="text" value="69"><br>
-    Beam Cross-Sectional Width (m): <input id="inputBeamWidth" type="text" value="0.1"><br>
-    Beam Cross-Sectional Height (m): <input id="inputBeamHeight" type="text" value="0.06"><br>
-
-    <br>
-    x-min: <input id="inputXMin" type="text" value="-0.1"><br>
-    x-max: <input id="inputXMax" type="text" value="0.7"><br>
-    y-min: <input id="inputYMin" type="text" value="-0.5"><br>
-    y-max: <input id="inputYMax" type="text" value="0.5"><br>
-    <br>
-
-    <button onclick="get_input_settings();">Set</button>
+      <h2>Input Settings</h2>
+      <table>
+        <tr>
+          <td>Force (N): </td>
+          <td><input id="inputForce" type="text" value="300000"></td>
+        </tr>
+        <tr>
+          <td>Beam Length (m): </td>
+          <td><input id="inputLength" type="text" value="0.5"></td>
+        </tr>
+        <tr>
+          <td>Beam Elasticity (GPa): </td>
+          <td><input id="inputElasticity" type="text" value="69"></td>
+        </tr>
+        <tr>
+          <td>Beam Cross-Sectional Width (m): </td>
+          <td><input id="inputBeamWidth" type="text" value="0.1"></td>
+        </tr>
+        <tr>
+          <td>Beam Cross-Sectional Height (m): </td>
+          <td><input id="inputBeamHeight" type="text" value="0.06"></td>
+        </tr>
+      </table>
+      <br>
+      <table id="graphSettings">
+        <tr>
+          <td>
+            x-min: <input id="inputXMin" type="text" value="-0.1">
+          </td>
+          <td>
+            y-min: <input id="inputYMin" type="text" value="-0.5">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            x-max: <input id="inputXMax" type="text" value="0.7">
+          </td>
+          <td>
+            y-max: <input id="inputYMax" type="text" value="0.5">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            x-grid: <input id="inputXGrid" type="text" value="0.1">
+          </td>
+          <td>
+            y-grid: <input id="inputYGrid" type="text" value="0.1">
+          </td>
+        </tr>
+      </table>
+      <br>
+      <br>
+      <button onclick="get_input_settings();">Set</button>
     </div>
 
     <!--

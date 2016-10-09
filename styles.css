@@ -13,3 +13,11 @@ canvas {
   margin: 0 auto;
   width: 400px;
 }
+
+input {
+  width: 70px;
+}
+
+#graphSettings td, #inputSettings td {
+  padding-right: 30px;
+}
